@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import { createOutline } from 'ionicons/icons';
+import { User } from '../context/firebase';
+import { DbUser } from '../context/db';
+import { handleRegistration } from '../context/auth';
+import { Dispatch, useState, SetStateAction } from 'react';
 import {
     IonContent,
     IonHeader,
@@ -10,21 +14,10 @@ import {
     IonLabel,
     IonList,
     IonIcon,
+    IonTextarea,
     IonButton,
     useIonToast,
 } from '@ionic/react';
-import { createOutline } from 'ionicons/icons';
-import { User } from '../context/firebase';
-import { DbUser } from '../context/db';
-import { handleRegistration } from '../context/auth';
-import {
-    useEffect,
-    createContext,
-    useContext,
-    Dispatch,
-    PropsWithChildren,
-    SetStateAction,
-} from 'react';
 
 const RegisterModal = ({
     firebaseUser,
@@ -36,6 +29,7 @@ const RegisterModal = ({
     const [name, setName] = useState<string>('');
     const [github, setGithub] = useState<string>('');
     const [branch, setBranch] = useState<string>('');
+    const [about, setAbout] = useState<string>('');
     const [rollNo, setRollNo] = useState<number>();
     const [present, dismiss] = useIonToast();
 
@@ -74,6 +68,14 @@ const RegisterModal = ({
                                 value={github}
                                 onIonChange={(e) => setGithub(e.detail.value!)}
                             ></IonInput>
+                        </IonItem>
+
+                        <IonItem>
+                            <IonLabel position="floating">about</IonLabel>
+                            <IonTextarea
+                                value={about}
+                                onIonChange={(e) => setAbout(e.detail.value!)}
+                            ></IonTextarea>
                         </IonItem>
 
                         <IonItem>
@@ -121,6 +123,7 @@ const RegisterModal = ({
                                         github,
                                         branch,
                                         rollNo ?? 1,
+                                        about,
                                         setUser
                                     );
                                 }}

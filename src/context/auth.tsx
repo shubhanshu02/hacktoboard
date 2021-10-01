@@ -101,8 +101,9 @@ export async function handleRegistration(
     github: string,
     branch: string,
     rollNo: number,
+    about: string,
     setUser: Dispatch<SetStateAction<DbUser | null>>
 ) {
-    addUser({ name, email, github, branch, rollNo, userId });
-    setUser({ name, email, github, branch, rollNo, userId });
+    addUser({ name, email, github, branch, rollNo, userId, about });
+    setUser({ name, email, github, branch, rollNo, userId, about });
 }

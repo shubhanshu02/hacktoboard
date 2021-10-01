@@ -8,6 +8,7 @@ export interface DbUser {
     github: string;
     branch: string;
     rollNo: number;
+    about: string;
 }
 
 export const getItemsinCollection = async (ref: string) => {
@@ -34,10 +35,11 @@ export async function addUser({
     github,
     branch,
     rollNo,
+    about,
 }: DbUser) {
     await setDoc(
         doc(db, 'users', userId),
-        { name, userId, email, github, branch, rollNo },
-        { merge: false }
+        { name, userId, email, github, branch, rollNo, about },
+        { merge: true }
     );
 }
