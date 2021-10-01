@@ -1,0 +1,7 @@
+{
+  "name": "hacktoboard",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
