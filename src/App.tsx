@@ -21,20 +21,35 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useAuth } from './context/auth';
+import Loader from './components/Loader';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+    const { loading } = useAuth();
+
+    return (
+        <IonApp>
+            {loading ? (
+                <>
+                    <p>loading: {loading}</p>
+                    <Loader />
+                </>
+            ) : (
+                <>
+                    <IonReactRouter>
+                        <IonRouterOutlet>
+                            <Route exact path="/home">
+                                <Home />
+                            </Route>
+                            <Route exact path="/">
+                                <Redirect to="/home" />
+                            </Route>
+                        </IonRouterOutlet>
+                    </IonReactRouter>
+                </>
+            )}
+        </IonApp>
+    );
+};
 
 export default App;

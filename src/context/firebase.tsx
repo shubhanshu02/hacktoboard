@@ -18,3 +18,12 @@ export const db = getFirestore(app);
 export const auth = getAuth(app);
 export type { User, UserCredential } from '@firebase/auth-types';
 export { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+export {
+    collection,
+    getDocs,
+    getDoc,
+    query,
+    where,
+    doc,
+    setDoc,
+} from 'firebase/firestore';
