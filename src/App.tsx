@@ -2,6 +2,8 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import Profile from './pages/Profile';
+import Submit from './pages/Submit';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -23,28 +25,34 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { useAuth } from './context/auth';
 import Loader from './components/Loader';
+import { Menu } from './components/Menu';
+import { IonSplitPane } from '@ionic/react';
 
-const App: React.FC = () => {
+const App = () => {
     const { loading } = useAuth();
 
     return (
         <IonApp>
             {loading ? (
-                <>
-                    <p>loading: {loading}</p>
-                    <Loader />
-                </>
+                <Loader />
             ) : (
                 <>
                     <IonReactRouter>
-                        <IonRouterOutlet>
-                            <Route exact path="/home">
-                                <Home />
-                            </Route>
-                            <Route exact path="/">
-                                <Redirect to="/home" />
-                            </Route>
-                        </IonRouterOutlet>
+                        <IonSplitPane contentId="main">
+                            <Menu />
+                            <IonRouterOutlet id="main">
+                                <Redirect from="/" to="/home" />
+                                <Route exact path="/home">
+                                    <Home />
+                                </Route>
+                                <Route exact path="/profile">
+                                    <Profile />
+                                </Route>
+                                <Route exact path="/submit">
+                                    <Submit />
+                                </Route>
+                            </IonRouterOutlet>
+                        </IonSplitPane>
                     </IonReactRouter>
                 </>
             )}

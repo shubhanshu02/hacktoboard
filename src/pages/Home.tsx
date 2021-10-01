@@ -1,3 +1,6 @@
+import './Home.css';
+import { useAuth } from '../context/auth';
+import { logOutOutline, logoGoogle } from 'ionicons/icons';
 import {
     IonContent,
     IonHeader,
@@ -6,16 +9,14 @@ import {
     IonTitle,
     IonButton,
     IonIcon,
+    IonImg,
     IonToolbar,
     IonMenuButton,
+    IonGrid,
 } from '@ionic/react';
-import './Home.css';
-import { useAuth } from '../context/auth';
-import { logOutOutline, logoGoogle } from 'ionicons/icons';
 
-const Home: React.FC = () => {
-    const { handleSignIn, user, loading, firebaseUser, handleLogout } =
-        useAuth();
+const Home = () => {
+    const { handleSignIn, user, handleLogout } = useAuth();
     return (
         <IonPage>
             <IonHeader>
@@ -52,12 +53,15 @@ const Home: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
-                <div>
-                    <p>{JSON.stringify(firebaseUser)}</p>
-                    <IonButton slot="end">
-                        {loading ? 'True' : 'False'}
-                    </IonButton>
-                </div>
+                <IonGrid>
+                    <IonImg src="/assets/hacktoberfest.svg" />
+                    <div className="ion-text-center">
+                        <h1>
+                            Official Leaderboard for Students of IIT BHU taking
+                            part in HacktoberFest 2021{' '}
+                        </h1>
+                    </div>
+                </IonGrid>
             </IonContent>
         </IonPage>
     );
