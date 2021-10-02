@@ -3,6 +3,7 @@ import { useAuth } from '../context/auth';
 import { logoGithub, logOutOutline, logoGoogle } from 'ionicons/icons';
 import { rocketOutline, schoolOutline } from 'ionicons/icons';
 import animationData from '../lottie/401.json';
+import MySubmissions from '../components/MySubmissions';
 import {
     IonContent,
     IonHeader,
@@ -116,6 +117,7 @@ const Profile = () => {
                                 <IonLabel>{user.rollNo}</IonLabel>
                             </IonItem>
                         </IonCard>
+                        <MySubmissions />
                     </>
                 )}
             </IonContent>

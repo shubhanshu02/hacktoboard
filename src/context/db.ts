@@ -23,6 +23,7 @@ export interface DbContribution {
     link: string;
     org: string;
     date: string;
+    filedAt: string;
     github: string;
     userId: string;
     verified: boolean | null;
@@ -77,10 +78,25 @@ export async function addContributionToDatabase({
     await addDoc(collection(db, 'contributions'), {
         link,
         org,
-        date: new Date(date),
+        date: date,
         github,
         userId,
         verified: false,
-        filedAt: new Date(),
+        filedAt: new Date().toString(),
     });
+}
+
+export async function getMySubmissions(
+    userId: string
+): Promise<DbContribution[]> {
+    const refCollection = collection(db, 'contributions');
+    const q = query(refCollection, where('userId', '==', userId));
+    const querySnapshot = await getDocs(q);
+    var submissions: DbContribution[] = [];
+    querySnapshot.docs.forEach((el) => {
+        console.log(el.data());
+
+        submissions.push(el.data() as DbContribution);
+    });
+    return submissions;
 }
