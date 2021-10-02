@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import { createOutline } from 'ionicons/icons';
+import { User } from '../context/firebase';
+import { DbUser } from '../context/db';
+import { handleRegistration } from '../context/auth';
+import { Dispatch, useState, SetStateAction } from 'react';
 import {
     IonContent,
     IonHeader,
@@ -10,21 +14,10 @@ import {
     IonLabel,
     IonList,
     IonIcon,
+    IonTextarea,
     IonButton,
     useIonToast,
 } from '@ionic/react';
-import { createOutline } from 'ionicons/icons';
-import { User } from '../context/firebase';
-import { DbUser } from '../context/db';
-import { handleRegistration } from '../context/auth';
-import {
-    useEffect,
-    createContext,
-    useContext,
-    Dispatch,
-    PropsWithChildren,
-    SetStateAction,
-} from 'react';
 
 const RegisterModal = ({
     firebaseUser,
@@ -36,6 +29,7 @@ const RegisterModal = ({
     const [name, setName] = useState<string>('');
     const [github, setGithub] = useState<string>('');
     const [branch, setBranch] = useState<string>('');
+    const [about, setAbout] = useState<string>('');
     const [rollNo, setRollNo] = useState<number>();
     const [present, dismiss] = useIonToast();
 
@@ -77,6 +71,14 @@ const RegisterModal = ({
                         </IonItem>
 
                         <IonItem>
+                            <IonLabel position="floating">about</IonLabel>
+                            <IonTextarea
+                                value={about}
+                                onIonChange={(e) => setAbout(e.detail.value!)}
+                            ></IonTextarea>
+                        </IonItem>
+
+                        <IonItem>
                             <IonLabel position="floating">Branch</IonLabel>
                             <IonInput
                                 value={branch}
@@ -102,18 +104,6 @@ const RegisterModal = ({
                         >
                             <IonButton
                                 onClick={() => {
-                                    present({
-                                        buttons: [
-                                            {
-                                                text: 'hide',
-                                                handler: () => dismiss(),
-                                            },
-                                        ],
-                                        color: 'success',
-                                        message:
-                                            'toast from hook, click hide to dismiss',
-                                        duration: 1000,
-                                    });
                                     handleRegistration(
                                         firebaseUser.uid,
                                         name,
@@ -121,8 +111,40 @@ const RegisterModal = ({
                                         github,
                                         branch,
                                         rollNo ?? 1,
+                                        about,
                                         setUser
-                                    );
+                                    )
+                                        .then(() => {
+                                            present({
+                                                buttons: [
+                                                    {
+                                                        text: 'hide',
+                                                        handler: () =>
+                                                            dismiss(),
+                                                    },
+                                                ],
+                                                color: 'success',
+                                                message:
+                                                    'Registration Successful!',
+                                                duration: 1000,
+                                            });
+                                            dismiss();
+                                        })
+                                        .catch(() => {
+                                            present({
+                                                buttons: [
+                                                    {
+                                                        text: 'hide',
+                                                        handler: () =>
+                                                            dismiss(),
+                                                    },
+                                                ],
+                                                color: 'danger',
+                                                message:
+                                                    'Some Error Occurred! Please try again.',
+                                                duration: 1000,
+                                            });
+                                        });
                                 }}
                             >
                                 <IonIcon icon={createOutline} />

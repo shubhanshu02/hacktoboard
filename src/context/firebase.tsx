@@ -23,6 +23,7 @@ export {
     getDocs,
     getDoc,
     query,
+    addDoc,
     where,
     doc,
     setDoc,

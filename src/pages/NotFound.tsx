@@ -1,6 +1,7 @@
-import './Home.css';
+import Lottie from 'react-lottie';
 import { useAuth } from '../context/auth';
-import { logOutOutline, logoGoogle, cafeOutline } from 'ionicons/icons';
+import { logOutOutline, logoGoogle } from 'ionicons/icons';
+import animationData from '../lottie/404.json';
 import {
     IonContent,
     IonHeader,
@@ -9,14 +10,14 @@ import {
     IonTitle,
     IonButton,
     IonIcon,
-    IonImg,
     IonToolbar,
     IonMenuButton,
-    IonGrid,
-    IonFooter,
+    IonCol,
+    IonRow,
+    IonLabel,
 } from '@ionic/react';
 
-const Home = () => {
+const NotFound = () => {
     const { handleSignIn, user, handleLogout } = useAuth();
     return (
         <IonPage>
@@ -25,7 +26,7 @@ const Home = () => {
                     <IonButtons slot="start">
                         <IonMenuButton />
                     </IonButtons>
-                    <IonTitle>Home</IonTitle>
+                    <IonTitle>Page Not Found</IonTitle>
                     {user ? (
                         <>
                             <IonButtons slot="end">
@@ -53,44 +54,27 @@ const Home = () => {
                     )}
                 </IonToolbar>
             </IonHeader>
-            <IonContent fullscreen>
-                <IonGrid>
-                    <div
-                        className="ion-text-center ion-align-self-center"
-                        style={{
-                            display: 'block',
-                            marginLeft: 'auto',
-                            marginRight: 'auto',
-                            marginTop: '2rem',
-                            width: '70%',
-                        }}
-                    >
-                        <IonImg
-                            src="/assets/hacktoberfest.svg"
-                            alt="HacktoberFest 2021 Banner"
+            <IonContent>
+                <IonRow className="ion-text-center">
+                    <IonCol>
+                        <Lottie
+                            options={{
+                                loop: true,
+                                autoplay: true,
+                                animationData: animationData,
+                                rendererSettings: {
+                                    preserveAspectRatio: 'xMidYMid slice',
+                                },
+                            }}
+                            height={200}
+                            width={250}
                         />
-                        <h1>
-                            Official Leaderboard for Students of IIT BHU taking
-                            part in HacktoberFest 2021{' '}
-                        </h1>
-                    </div>
-                </IonGrid>
+                        <IonLabel>Page Not Found!</IonLabel>
+                    </IonCol>
+                </IonRow>
             </IonContent>
-
-            <IonFooter className="ion-no-border" translucent>
-                <IonToolbar className="ion-text-center">
-                    <p>
-                        Build by{' '}
-                        <a href="https://github.com/shubhanshu02">
-                            Shubhanshu Saxena
-                        </a>{' '}
-                        with lots of{' '}
-                        <IonIcon slot="end" icon={cafeOutline}></IonIcon>{' '}
-                    </p>
-                </IonToolbar>
-            </IonFooter>
         </IonPage>
     );
 };
 
-export default Home;
+export default NotFound;
