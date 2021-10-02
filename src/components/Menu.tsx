@@ -25,7 +25,7 @@ export const Menu = () => {
     const menuItems = [
         {
             title: 'Home',
-            path: '/home',
+            path: '/',
             icon: homeOutline,
         },
         {

@@ -4,6 +4,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Submit from './pages/Submit';
+import NotFoundPage from './pages/NotFound';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,8 +42,7 @@ const App = () => {
                         <IonSplitPane contentId="main">
                             <Menu />
                             <IonRouterOutlet id="main">
-                                <Redirect from="/" to="/home" />
-                                <Route exact path="/home">
+                                <Route exact path="/">
                                     <Home />
                                 </Route>
                                 <Route exact path="/profile">
@@ -51,6 +51,7 @@ const App = () => {
                                 <Route exact path="/submit">
                                     <Submit />
                                 </Route>
+                                <Route component={NotFoundPage} />
                             </IonRouterOutlet>
                         </IonSplitPane>
                     </IonReactRouter>
