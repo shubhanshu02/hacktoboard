@@ -3,7 +3,7 @@ import { useAuth } from '../context/auth';
 import { createOutline, logOutOutline, logoGoogle } from 'ionicons/icons';
 import animationData from '../lottie/401.json';
 import { useState } from 'react';
-import { DbUser } from '../context/db';
+import { DbUser, addContributionToDatabase } from '../context/db';
 import {
     IonContent,
     IonHeader,
@@ -23,6 +23,7 @@ import {
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
+    useIonToast,
     IonCardContent,
     IonItem,
     IonLabel,
@@ -32,6 +33,22 @@ const Submit = ({ user }: { user: DbUser }) => {
     const [link, setLink] = useState<string>('');
     const [org, setOrg] = useState<string>('');
     const [date, setDate] = useState<string>('');
+    const [present, dismiss] = useIonToast();
+
+    const toast = (msg: string, msgType: string) => {
+        console.log(msg);
+        present({
+            buttons: [
+                {
+                    text: 'hide',
+                    handler: () => dismiss(),
+                },
+            ],
+            color: msgType,
+            message: msg,
+            duration: 1000,
+        });
+    };
 
     return (
         <IonList style={{ marginTop: 10, padding: 20 }}>
@@ -59,7 +76,7 @@ const Submit = ({ user }: { user: DbUser }) => {
             </IonItem>
 
             <IonItem>
-                <IonLabel position="floating">Date</IonLabel>
+                <IonLabel position="floating">Date of Contribution</IonLabel>
                 <IonDatetime
                     value={date}
                     display-timezone="ist"
@@ -69,7 +86,47 @@ const Submit = ({ user }: { user: DbUser }) => {
             </IonItem>
 
             <div className="ion-text-center" style={{ marginTop: 15 }}>
-                <IonButton onClick={() => {}}>
+                <IonButton
+                    onClick={() => {
+                        if (org.trim() === '') {
+                            toast('Enter Organisation Name', 'warning');
+                        } else if (link.trim() === '') {
+                            toast('Enter Link to Contribution', 'warning');
+                        } else if (date.trim() === '') {
+                            toast('Select Date of Contribution', 'warning');
+                        } else {
+                            addContributionToDatabase({
+                                link,
+                                org,
+                                date,
+                                userId: user.userId,
+                                github: user.github,
+                            })
+                                .then(() => {
+                                    toast(
+                                        'Mission Sucessful. Respect+ 😎',
+                                        'success'
+                                    );
+                                    setLink('');
+                                    setOrg('');
+                                    setDate('');
+                                })
+                                .catch(() =>
+                                    toast(
+                                        "Sorry, couldn't update the database.",
+                                        'danger'
+                                    )
+                                );
+                        }
+                        console.log({
+                            link,
+                            org,
+                            date,
+                            github: user.github,
+                            verified: false,
+                        });
+                    }}
+                >
                     <IonIcon icon={createOutline} />
                     Register
                 </IonButton>

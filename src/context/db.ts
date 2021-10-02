@@ -1,5 +1,13 @@
 import { db } from './firebase';
-import { collection, getDocs, query, setDoc, doc, where } from './firebase';
+import {
+    collection,
+    getDocs,
+    query,
+    setDoc,
+    doc,
+    where,
+    addDoc,
+} from './firebase';
 
 export interface DbUser {
     name: string;
@@ -9,6 +17,15 @@ export interface DbUser {
     branch: string;
     rollNo: number;
     about: string;
+}
+
+export interface DbContribution {
+    link: string;
+    org: string;
+    date: string;
+    github: string;
+    userId: string;
+    verified: boolean | null;
 }
 
 export const getItemsinCollection = async (ref: string) => {
@@ -42,4 +59,28 @@ export async function addUser({
         { name, userId, email, github, branch, rollNo, about },
         { merge: true }
     );
+}
+
+export async function addContributionToDatabase({
+    link,
+    org,
+    date,
+    github,
+    userId,
+}: {
+    link: string;
+    org: string;
+    date: string;
+    userId: string;
+    github: string;
+}): Promise<void> {
+    await addDoc(collection(db, 'contributions'), {
+        link,
+        org,
+        date: new Date(date),
+        github,
+        userId,
+        verified: false,
+        filedAt: new Date(),
+    });
 }
