@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Submit from './pages/Submit';
 import NotFoundPage from './pages/NotFound';
-
+import Leaderboard from './pages/Leader'
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -50,6 +50,9 @@ const App = () => {
                                 </Route>
                                 <Route exact path="/submit">
                                     <Submit />
+                                </Route>
+                                <Route exact path="/leaderboard">
+                                    <Leaderboard />
                                 </Route>
                                 <Route component={NotFoundPage} />
                             </IonRouterOutlet>

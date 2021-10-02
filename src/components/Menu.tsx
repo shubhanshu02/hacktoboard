@@ -18,6 +18,7 @@ import {
     addCircleOutline,
     logoGoogle,
     logOutOutline,
+    statsChartOutline,
 } from 'ionicons/icons';
 
 export const Menu = () => {
@@ -27,20 +28,28 @@ export const Menu = () => {
             title: 'Home',
             path: '/',
             icon: homeOutline,
+            anonymousAccess: true,
+        },
+        {
+            title: 'Leaderboard',
+            path: '/leaderboard',
+            icon: statsChartOutline,
+            anonymousAccess: true,
         },
         {
             title: 'Profile',
             path: '/profile',
             icon: personOutline,
+            anonymousAccess: false,
         },
         {
             title: 'Add Contribution Record',
             path: '/submit',
             icon: addCircleOutline,
+            anonymousAccess: false,
         },
     ];
-    const { handleSignIn, user, loading, firebaseUser, handleLogout } =
-        useAuth();
+    const { handleSignIn, user, firebaseUser, handleLogout } = useAuth();
     return (
         <>
             <IonMenu side="start" contentId="main">
@@ -53,24 +62,34 @@ export const Menu = () => {
                     <div style={{ marginBottom: '1rem', maxWidth: '30rem' }}>
                         <IonImg src="/assets/icon/cops.jpg" />
                     </div>
-                    {menuItems.map((el) => (
-                        <IonItem
-                            key={el.title}
-                            color={location.pathname === el.path ? 'dark' : ''}
-                            routerLink={el.path}
-                            routerDirection="none"
-                            lines="none"
-                        >
-                            <IonIcon
-                                color={
-                                    location.pathname === el.path ? 'light' : ''
-                                }
-                                slot="start"
-                                icon={el.icon}
-                            />
-                            <IonLabel>{el.title}</IonLabel>
-                        </IonItem>
-                    ))}
+                    {menuItems.map((el) => {
+                        if (el.anonymousAccess || firebaseUser)
+                            return (
+                                <IonItem
+                                    key={el.title}
+                                    color={
+                                        location.pathname === el.path
+                                            ? 'dark'
+                                            : ''
+                                    }
+                                    routerLink={el.path}
+                                    routerDirection="none"
+                                    lines="none"
+                                >
+                                    <IonIcon
+                                        color={
+                                            location.pathname === el.path
+                                                ? 'light'
+                                                : ''
+                                        }
+                                        slot="start"
+                                        icon={el.icon}
+                                    />
+                                    <IonLabel>{el.title}</IonLabel>
+                                </IonItem>
+                            );
+                        return null;
+                    })}
                     {user ? (
                         <IonItem
                             lines="none"

@@ -140,7 +140,8 @@ const RegisterModal = ({
                                                     },
                                                 ],
                                                 color: 'danger',
-                                                message: 'Some Error Occurred! Please try again.',
+                                                message:
+                                                    'Some Error Occurred! Please try again.',
                                                 duration: 1000,
                                             });
                                         });

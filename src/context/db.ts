@@ -1,3 +1,4 @@
+import { getDoc } from '@firebase/firestore';
 import { db } from './firebase';
 import {
     collection,
@@ -28,6 +29,13 @@ export interface DbContribution {
     userId: string;
     verified: boolean | null;
 }
+
+export type LeaderboardType = {
+    contributionMap: Record<string, DbContribution[]>;
+    userData: Record<string, DbUser>;
+    contributionCounts: { userId: string; count: number }[];
+    status: boolean;
+};
 
 export const getItemsinCollection = async (ref: string) => {
     const refCollection = collection(db, ref);
@@ -99,4 +107,45 @@ export async function getMySubmissions(
         submissions.push(el.data() as DbContribution);
     });
     return submissions;
+}
+
+export async function getLeaderboard(): Promise<LeaderboardType> {
+    const refCollection = collection(db, 'contributions');
+    const contributionSnapshot = await getDocs(refCollection);
+    var submissions: Record<string, DbContribution[]> = {};
+    var userDetails: Record<string, DbUser> = {};
+    var countArray: { userId: string; count: number }[] = [];
+
+    contributionSnapshot.docs.forEach((el) => {
+        const data: DbContribution = el.data() as DbContribution;
+        if (data.userId in submissions) submissions[data.userId].push(data);
+        else submissions[data.userId] = [data];
+    });
+
+    for (var userId in submissions) {
+        countArray.push({ userId, count: submissions[userId].length });
+
+        const userDocRef = doc(db, 'users', userId);
+        const fetchedDocSnapshot = await getDoc(userDocRef);
+
+        if (fetchedDocSnapshot.exists()) {
+            userDetails[userId] = fetchedDocSnapshot.data() as DbUser;
+        } else {
+            return {
+                contributionMap: {} as Record<string, DbContribution[]>,
+                userData: {} as Record<string, DbUser>,
+                contributionCounts: [],
+                status: false,
+            };
+        }
+    }
+
+    countArray.sort((x, y) => (x.count <= y.count ? 1 : -1));
+
+    return {
+        contributionMap: submissions,
+        userData: userDetails,
+        contributionCounts: countArray,
+        status: true,
+    };
 }
