@@ -104,18 +104,6 @@ const RegisterModal = ({
                         >
                             <IonButton
                                 onClick={() => {
-                                    present({
-                                        buttons: [
-                                            {
-                                                text: 'hide',
-                                                handler: () => dismiss(),
-                                            },
-                                        ],
-                                        color: 'success',
-                                        message:
-                                            'toast from hook, click hide to dismiss',
-                                        duration: 1000,
-                                    });
                                     handleRegistration(
                                         firebaseUser.uid,
                                         name,
@@ -125,7 +113,37 @@ const RegisterModal = ({
                                         rollNo ?? 1,
                                         about,
                                         setUser
-                                    );
+                                    )
+                                        .then(() => {
+                                            present({
+                                                buttons: [
+                                                    {
+                                                        text: 'hide',
+                                                        handler: () =>
+                                                            dismiss(),
+                                                    },
+                                                ],
+                                                color: 'success',
+                                                message:
+                                                    'Registration Successful!',
+                                                duration: 1000,
+                                            });
+                                            dismiss();
+                                        })
+                                        .catch(() => {
+                                            present({
+                                                buttons: [
+                                                    {
+                                                        text: 'hide',
+                                                        handler: () =>
+                                                            dismiss(),
+                                                    },
+                                                ],
+                                                color: 'danger',
+                                                message: 'Some Error Occurred! Please try again.',
+                                                duration: 1000,
+                                            });
+                                        });
                                 }}
                             >
                                 <IonIcon icon={createOutline} />
