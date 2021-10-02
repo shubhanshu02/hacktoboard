@@ -1,6 +1,6 @@
 import './Home.css';
 import { useAuth } from '../context/auth';
-import { logOutOutline, logoGoogle } from 'ionicons/icons';
+import { logOutOutline, logoGoogle, cafeOutline } from 'ionicons/icons';
 import {
     IonContent,
     IonHeader,
@@ -13,6 +13,7 @@ import {
     IonToolbar,
     IonMenuButton,
     IonGrid,
+    IonFooter,
 } from '@ionic/react';
 
 const Home = () => {
@@ -24,7 +25,7 @@ const Home = () => {
                     <IonButtons slot="start">
                         <IonMenuButton />
                     </IonButtons>
-                    <IonTitle>HacktoBoard</IonTitle>
+                    <IonTitle>Home</IonTitle>
                     {user ? (
                         <>
                             <IonButtons slot="end">
@@ -54,8 +55,20 @@ const Home = () => {
             </IonHeader>
             <IonContent fullscreen>
                 <IonGrid>
-                    <IonImg src="/assets/hacktoberfest.svg" />
-                    <div className="ion-text-center">
+                    <div
+                        className="ion-text-center ion-align-self-center"
+                        style={{
+                            display: 'block',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            marginTop: '2rem',
+                            width: '70%',
+                        }}
+                    >
+                        <IonImg
+                            src="/assets/hacktoberfest.svg"
+                            alt="HacktoberFest 2021 Banner"
+                        />
                         <h1>
                             Official Leaderboard for Students of IIT BHU taking
                             part in HacktoberFest 2021{' '}
@@ -63,6 +76,19 @@ const Home = () => {
                     </div>
                 </IonGrid>
             </IonContent>
+
+            <IonFooter className="ion-no-border" translucent>
+                <IonToolbar className="ion-text-center">
+                    <p>
+                        Build by{' '}
+                        <a href="https://github.com/shubhanshu02">
+                            Shubhanshu Saxena
+                        </a>{' '}
+                        with lots of{' '}
+                        <IonIcon slot="end" icon={cafeOutline}></IonIcon>{' '}
+                    </p>
+                </IonToolbar>
+            </IonFooter>
         </IonPage>
     );
 };

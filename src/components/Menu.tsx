@@ -51,7 +51,7 @@ export const Menu = () => {
                 </IonHeader>
                 <IonContent>
                     <div style={{ marginBottom: '1rem', maxWidth: '30rem' }}>
-                        <IonImg src="/assets/cops.jpg" />
+                        <IonImg src="/assets/icon/cops.jpg" />
                     </div>
                     {menuItems.map((el) => (
                         <IonItem
