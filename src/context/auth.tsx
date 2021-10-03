@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
             }
             setLoading(false);
         });
-    }, []);
+    }, [present]);
 
     return (
         <AuthContext.Provider

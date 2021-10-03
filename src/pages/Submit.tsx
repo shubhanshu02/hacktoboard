@@ -136,8 +136,7 @@ const Submit = ({ user }: { user: DbUser }) => {
 };
 
 const Profile: React.FC = () => {
-    const { handleSignIn, user, loading, firebaseUser, handleLogout } =
-        useAuth();
+    const { handleSignIn, user, handleLogout } = useAuth();
     return (
         <IonPage>
             <IonHeader>
