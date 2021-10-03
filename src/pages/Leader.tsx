@@ -62,7 +62,7 @@ const Leaderboard = () => {
                     {user ? (
                         <>
                             <IonButtons slot="end">
-                                <span>Hi, {'Shubhanshu'}!</span>
+                                <span>Hi, {user.name}!</span>
                                 <IonButton
                                     onClick={async () => await handleLogout()}
                                 >
