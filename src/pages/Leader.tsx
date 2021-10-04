@@ -16,7 +16,6 @@ import {
     useIonModal,
     IonToolbar,
     IonMenuButton,
-    IonCol,
     IonCard,
     IonSpinner,
     IonCardHeader,
@@ -26,6 +25,9 @@ import {
     IonItem,
     IonLabel,
 } from '@ionic/react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Leader.css';
+import { Table } from 'react-bootstrap';
 
 const Leaderboard = () => {
     const { handleSignIn, user, handleLogout, firebaseUser } = useAuth();
@@ -113,52 +115,71 @@ const Leaderboard = () => {
                                 <IonLabel>Please come back later</IonLabel>
                             </IonItem>
                         ) : (
-                            <div className="table-responsive">
-                                <IonItem>
-                                    <IonCol>Github Username</IonCol>
-                                    <IonCol>Name</IonCol>
-                                    <IonCol>Branch</IonCol>
-                                    <IonCol>Total Contributions</IonCol>
-                                </IonItem>
-                                {leaderboard.contributionCounts.map((el) => (
-                                    <IonItem
-                                        button
-                                        onClick={() => {
-                                            setSelectedUser(el.userId);
-                                            present();
-                                        }}
-                                    >
-                                        <IonCol>
-                                            {
-                                                leaderboard.userData[el.userId]
-                                                    .github
-                                            }
-                                        </IonCol>
-                                        <IonCol>
-                                            {
-                                                leaderboard.userData[el.userId]
-                                                    .name
-                                            }
-                                        </IonCol>
-                                        <IonCol>
-                                            {
-                                                leaderboard.userData[el.userId]
-                                                    .branch
-                                            }
-                                        </IonCol>
-                                        <IonCol>
-                                            {el.count}{' '}
-                                            {firebaseUser &&
-                                                firebaseUser.uid ===
-                                                    el.userId && (
-                                                    <IonBadge color="primary">
-                                                        ME
-                                                    </IonBadge>
-                                                )}
-                                        </IonCol>
-                                    </IonItem>
-                                ))}
-                            </div>
+                            <Table hover responsive>
+                                <thead>
+                                    {' '}
+                                    <tr>
+                                        <th>
+                                            Github{' '}
+                                            <span className="hide-widget">
+                                                Username
+                                            </span>
+                                        </th>
+                                        <th className="hide-widget-minimum">
+                                            Name
+                                        </th>
+                                        <th className="hide-widget">Branch</th>
+                                        <th>Submissions</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {leaderboard.contributionCounts.map(
+                                        (el, index) => (
+                                            <tr
+                                                onClick={() => {
+                                                    setSelectedUser(el.userId);
+                                                    present();
+                                                }}
+                                                key={index}
+                                                className="leaderboard-table-row"
+                                            >
+                                                <td>
+                                                    {
+                                                        leaderboard.userData[
+                                                            el.userId
+                                                        ].github
+                                                    }
+                                                </td>
+                                                <td className="hide-widget-minimum">
+                                                    {
+                                                        leaderboard.userData[
+                                                            el.userId
+                                                        ].name
+                                                    }
+                                                </td>
+                                                <td className="hide-widget">
+                                                    {
+                                                        leaderboard.userData[
+                                                            el.userId
+                                                        ].branch
+                                                    }
+                                                </td>
+                                                <td>
+                                                    {el.count}{' '}
+                                                    {firebaseUser &&
+                                                        firebaseUser.uid ===
+                                                            el.userId && (
+                                                            <IonBadge color="primary">
+                                                                ME
+                                                            </IonBadge>
+                                                        )}
+                                                </td>
+                                            </tr>
+                                        )
+                                    )}
+                                </tbody>
+                            </Table>
                         )}
                         <div
                             style={{ marginTop: '10px' }}
