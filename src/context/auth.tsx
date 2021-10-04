@@ -73,7 +73,8 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
             }
             setLoading(false);
         });
-    }, [present]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <AuthContext.Provider
