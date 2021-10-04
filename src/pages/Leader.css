@@ -1,0 +1,16 @@
+@media screen and (max-width: 768px) {
+    .hide-widget {
+        display: none;
+    }
+}
+@media screen and (max-width: 400px) {
+    .hide-widget-minimum {
+        display: none;
+    }
+}
+
+.leaderboard-table-row {
+    cursor: pointer;
+    -webkit-user-drag: none;
+    user-select: none;
+}

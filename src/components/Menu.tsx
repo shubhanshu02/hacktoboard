@@ -59,7 +59,7 @@ export const Menu = () => {
                     </IonToolbar>
                 </IonHeader>
                 <IonContent>
-                    <div style={{ marginBottom: '1rem', maxWidth: '30rem' }}>
+                    <div style={{ marginBottom: '1rem', maxWidth: '24rem' }}>
                         <IonImg src="/assets/icon/cops.jpg" />
                     </div>
                     {menuItems.map((el) => {

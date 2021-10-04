@@ -107,9 +107,9 @@ const Submit = ({ user }: { user: DbUser }) => {
                                         'Mission Sucessful. Respect+ 😎',
                                         'success'
                                     );
-                                    setLink('');
-                                    setOrg('');
-                                    setDate('');
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    });
                                 })
                                 .catch(() =>
                                     toast(
@@ -172,7 +172,7 @@ const Profile: React.FC = () => {
                     )}
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent class="scroll-content">
                 {!user ? (
                     <IonRow className="ion-text-center">
                         <IonCol>

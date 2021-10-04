@@ -53,7 +53,7 @@ const Home = () => {
                     )}
                 </IonToolbar>
             </IonHeader>
-            <IonContent fullscreen>
+            <IonContent class="scroll-content">
                 <IonGrid>
                     <div
                         className="ion-text-center ion-align-self-center"
