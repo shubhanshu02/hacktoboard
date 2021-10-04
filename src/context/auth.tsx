@@ -38,6 +38,9 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     const [present, dismiss] = useIonModal(RegisterModal, {
         firebaseUser,
         setUser,
+        dismissModal: () => {
+            dismiss();
+        },
     });
 
     const handleSignIn = async (): Promise<void> => {
@@ -73,7 +76,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
             }
             setLoading(false);
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

@@ -22,9 +22,11 @@ import {
 const RegisterModal = ({
     firebaseUser,
     setUser,
+    dismissModal,
 }: {
     firebaseUser: User | null;
     setUser: Dispatch<SetStateAction<DbUser | null>>;
+    dismissModal: () => void;
 }) => {
     const [name, setName] = useState<string>('');
     const [github, setGithub] = useState<string>('');
@@ -33,6 +35,19 @@ const RegisterModal = ({
     const [rollNo, setRollNo] = useState<number>();
     const [present, dismiss] = useIonToast();
 
+    const toast = (msg: string, msgType: string) => {
+        present({
+            buttons: [
+                {
+                    text: 'hide',
+                    handler: () => dismiss(),
+                },
+            ],
+            color: msgType,
+            message: msg,
+            duration: 1000,
+        });
+    };
     return (
         <IonPage>
             <IonHeader>
@@ -104,47 +119,67 @@ const RegisterModal = ({
                         >
                             <IonButton
                                 onClick={() => {
-                                    handleRegistration(
-                                        firebaseUser.uid,
-                                        name,
-                                        firebaseUser.email ?? '',
-                                        github,
-                                        branch,
-                                        rollNo ?? 1,
-                                        about,
-                                        setUser
-                                    )
-                                        .then(() => {
-                                            present({
-                                                buttons: [
-                                                    {
-                                                        text: 'hide',
-                                                        handler: () =>
-                                                            dismiss(),
-                                                    },
-                                                ],
-                                                color: 'success',
-                                                message:
-                                                    'Registration Successful!',
-                                                duration: 1000,
+                                    if (name.trim() === '') {
+                                        toast('Enter Name', 'warning');
+                                    } else if (github.trim() === '') {
+                                        toast(
+                                            'Enter GitHub Username',
+                                            'warning'
+                                        );
+                                    } else if (branch.trim() === '') {
+                                        toast('Enter Branch Name', 'warning');
+                                    } else if (about.trim() === '') {
+                                        toast('Enter your bio', 'warning');
+                                    } else if (
+                                        rollNo?.toString().length !== 8
+                                    ) {
+                                        toast(
+                                            'Enter a valid roll number',
+                                            'warning'
+                                        );
+                                    } else {
+                                        handleRegistration(
+                                            firebaseUser.uid,
+                                            name,
+                                            firebaseUser.email ?? '',
+                                            github,
+                                            branch,
+                                            rollNo ?? 1,
+                                            about,
+                                            setUser
+                                        )
+                                            .then(() => {
+                                                present({
+                                                    buttons: [
+                                                        {
+                                                            text: 'hide',
+                                                            handler: () =>
+                                                                dismiss(),
+                                                        },
+                                                    ],
+                                                    color: 'success',
+                                                    message:
+                                                        'Registration Successful!',
+                                                    duration: 1000,
+                                                });
+                                                dismissModal();
+                                            })
+                                            .catch(() => {
+                                                present({
+                                                    buttons: [
+                                                        {
+                                                            text: 'hide',
+                                                            handler: () =>
+                                                                dismiss(),
+                                                        },
+                                                    ],
+                                                    color: 'danger',
+                                                    message:
+                                                        'Some Error Occurred! Please try again.',
+                                                    duration: 1000,
+                                                });
                                             });
-                                            dismiss();
-                                        })
-                                        .catch(() => {
-                                            present({
-                                                buttons: [
-                                                    {
-                                                        text: 'hide',
-                                                        handler: () =>
-                                                            dismiss(),
-                                                    },
-                                                ],
-                                                color: 'danger',
-                                                message:
-                                                    'Some Error Occurred! Please try again.',
-                                                duration: 1000,
-                                            });
-                                        });
+                                    }
                                 }}
                             >
                                 <IonIcon icon={createOutline} />
