@@ -47,6 +47,9 @@ const Leaderboard = () => {
         setLoading(true);
         getLeaderboard()
             .then((data) => setLeaderboard(data as LeaderboardType))
+            .catch(() => {
+                console.error('error');
+            })
             .finally(() => setLoading(false));
         //    console.log(leaderboard);
     }, []);
@@ -86,7 +89,7 @@ const Leaderboard = () => {
                     )}
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent class="scroll-content">
                 <IonCard>
                     <IonCardHeader>
                         <IonCardTitle>Tentative Leaderboard</IonCardTitle>
@@ -105,7 +108,7 @@ const Leaderboard = () => {
                             <IonItem lines="none" button>
                                 <IonIcon icon={barChartOutline} slot="start" />
                                 <IonLabel>
-                                    Waiting for Users to Submissions
+                                    Waiting for Users to make Submissions
                                 </IonLabel>
                                 <IonLabel>Please come back later</IonLabel>
                             </IonItem>

@@ -62,7 +62,7 @@ const Profile = () => {
                     )}
                 </IonToolbar>
             </IonHeader>
-            <IonContent>
+            <IonContent class="scroll-content">
                 {!user ? (
                     <IonRow className="ion-text-center">
                         <IonCol>

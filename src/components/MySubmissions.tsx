@@ -63,7 +63,11 @@ export default function MySubmissions() {
                                         <IonCol>Verified?</IonCol>
                                     </IonItem>
                                     {submissions.map((el) => (
-                                        <IonItem href={el.link} button>
+                                        <IonItem
+                                            href={el.link}
+                                            key={el.date + el.github}
+                                            button
+                                        >
                                             <IonCol>
                                                 {dayjs(
                                                     el.date,
